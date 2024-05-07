@@ -51,12 +51,12 @@ public class StoryModel : ScriptableObject
 
         public EventType eventType;
 
-        public Reslut[] sucessRasult;       //선택지에 대한 성공 결과 배열
-        public Reslut[] failResult;         //선택지에 대한 실패 결과 배열
+        public Result[] sucessRasult;       //선택지에 대한 성공 결과 배열
+        public Result[] failResult;         //선택지에 대한 실패 결과 배열
     }
 
     [System.Serializable]
-    public class Reslut
+    public class Result
     {
         public enum ResultType : int
         {
@@ -70,7 +70,7 @@ public class StoryModel : ScriptableObject
         }
 
         public ResultType resultType;   //결과값 타입
-        public int valuel;              //변화 수치 입력
+        public int value;              //변화 수치 입력
         public Stats stats;             //해당 스텟 변화 수치
     }
 }

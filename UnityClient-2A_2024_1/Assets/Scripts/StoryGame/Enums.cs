@@ -46,12 +46,12 @@ namespace STORYGAME     //이름 충돌 방지
         public int hpPoint;
         public int spPoint;
 
-        public int currenHpPoint;
-        public int currenSpPoint;
-        public int currenXpPoint;
+        public int currentHpPoint;
+        public int currentSpPoint;
+        public int currentXpPoint;
 
         //기본 스텟 설정 (D&D)
-        public int strngth;         //STR
+        public int strength;         //STR
         public int dexterity;       //DEX
         public int consitiution;    //CON
         public int Intelligence;    //INT
