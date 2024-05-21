@@ -11,6 +11,7 @@ public class StorySystem : MonoBehaviour
 
     public enum TEXTSYSTEM
     {
+        NONE,
         DOING,
         SELECT,
         DONE
@@ -25,6 +26,8 @@ public class StorySystem : MonoBehaviour
 
     public Button[] buttonWay = new Button[3];      //선택지 버튼 추가
     public Text[] buttonWayText = new Text[3];      //선택지 버튼 Text
+
+    public TEXTSYSTEM currentTextShow = TEXTSYSTEM.NONE;
 
     private void Awake()
     {
@@ -55,13 +58,45 @@ public class StorySystem : MonoBehaviour
         }
     }
 
-    public void OnWayClick(int index)
+    public void OnWayClick(int index)                           //선택지 버튼에 따른 함수 index는 버튼에 연결된 번호를 받아온다
     {
+        if (currentTextShow == TEXTSYSTEM.DOING)
+            return;
 
+        bool CheckEventTypeNone = false;
+        StoryModel playstoryModel = currentStoryModel;
+
+        if (playstoryModel.options[index].eventCheak.eventType == StoryModel.EventCheak.EventType.NONE)
+        {
+            for (int i = 0; i < playstoryModel.options[index].eventCheak.sucessRasult.Length; i++)
+            {
+                GameSystem.instance.ApplyChoice(currentStoryModel.options[index].eventCheak.sucessRasult[i]);
+                CheckEventTypeNone = true;
+            }
+        }
+    }
+
+    public void CoShowText()                  //전체적인 스토리 모델 호출
+    {
+        StoryModelInit();                     //스토리 모델을 셋팅
+        ResetShow();                          //창 화면을 초기화
+        StartCoroutine(ShowText());           //연출 진행
+    }
+
+    public void ResetShow()
+    {
+        textComponent.text = "";
+
+        for (int i = 0; i < buttonWay.Length; i++)
+        {
+            buttonWay[i].gameObject.SetActive(false);
+        }
     }
 
     IEnumerator ShowText()                                      //코루틴 함수 사용
     {
+        currentTextShow = TEXTSYSTEM.DOING;
+
         if(currentStoryModel.MainImage != null)
         {
             //Texture2D를 Sprtie 변환
@@ -94,5 +129,6 @@ public class StorySystem : MonoBehaviour
 
         yield return new WaitForSeconds(delay);
 
+        currentTextShow = TEXTSYSTEM.NONE;
     }
 }
